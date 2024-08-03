@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz App</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Quiz App</h1>
+        <div id="quiz">
+            <p id="question"></p>
+            <div id="choices"></div>
+            <button onclick="submitAnswer()">Submit Answer</button>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #b3dbf1;
+        }
+
+        .container {
+            text-align: center;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+
+    <script>
+        const quizData = [
+            {
+                question: "What is the capital of France?",
+                choices: ["Berlin", "Madrid", "Paris", "Lisbon"],
+                answer: "Paris"
+            },
+            {
+                question: "Who is the author of 'Harry Potter'?",
+                choices: ["J.K. Rowling", "J.R.R. Tolkien", "George R.R. Martin", "Stephen King"],
+                answer: "J.K. Rowling"
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            const quiz = document.getElementById('quiz');
+            if (currentQuestionIndex < quizData.length) {
+                const currentQuestion = quizData[currentQuestionIndex];
+                document.getElementById('question').innerText = currentQuestion.question;
+                const choicesDiv = document.getElementById('choices');
+                choicesDiv.innerHTML = "";
+                currentQuestion.choices.forEach(choice => {
+                    const button = document.createElement('button');
+                    button.innerText = choice;
+                    button.onclick = () => selectAnswer(choice);
+                    choicesDiv.appendChild(button);
+                });
+            } else {
+                quiz.innerHTML = `<h2>Your score: ${score}/${quizData.length}</h2>`;
+            }
+        }
+
+        function selectAnswer(choice) {
+            const currentQuestion = quizData[currentQuestionIndex];
+            if (choice === currentQuestion.answer) {
+                score++;
+            }
+            currentQuestionIndex++;
+            loadQuestion();
+        }
+
+        loadQuestion();
+    </script>
+
+</body>
+</html>
+
